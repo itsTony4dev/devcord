@@ -43,8 +43,6 @@ export const signup = async (req, res) => {
       return res.status(400).json("Email is not valid");
     }
 
-
-
     const user = await User.create({
       fName,
       lName,
@@ -137,7 +135,10 @@ export const signout = (_req, res) => {
 export const verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
-    const decoded =  jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded) {
+      return res.status(400).json("Invalid token");
+    }
     const user = await User.findById(decoded.userId);
     if (!user) {
       return res.status(400).json("User not found");
