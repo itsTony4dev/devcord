@@ -5,6 +5,7 @@ dotenv.config();
 
 import connectDB from "./db/connection.js";
 import authRoutes from "./routes/auth.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.use(cookieParser());
 // Routes
 
 app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Health-Check route
 
