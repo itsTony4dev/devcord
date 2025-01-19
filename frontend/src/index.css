@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
+  background: linear-gradient(rgba(0, 0, 0, 0.384), rgba(0, 0, 0, 0.671)),
+    url("/images/bg.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+} */
