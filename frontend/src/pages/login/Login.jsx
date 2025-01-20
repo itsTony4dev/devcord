@@ -1,4 +1,5 @@
-import "./Login.css";
+import { Link } from "react-router-dom";
+
 const Login = () => {
   return (
     <div className="min-h-screen w-full rounded-xl bg-base-200 flex items-center justify-center p-4 ">
@@ -37,9 +38,9 @@ const Login = () => {
 
           <p className="text-center text-sm">
             Don&apos;t have an account?
-            <a href="/register" className="link link-primary ml-1">
+            <Link to="/signup" className="link link-primary ml-1">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>

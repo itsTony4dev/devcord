@@ -1,6 +1,19 @@
-// import "./Signup.css";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const [inputs, setInputs] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(inputs);
+  };
+
   return (
     <div className="min-h-screen w-full rounded-xl bg-base-200 flex items-center justify-center p-4">
       <div className="card w-full max-w-sm bg-base-100 shadow-xl">
@@ -12,12 +25,16 @@ const Signup = () => {
             Join the developer community
           </p>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="form-control">
               <input
                 type="text"
                 placeholder="Username"
                 className="input input-bordered w-full"
+                value={inputs.username}
+                onChange={(e) =>
+                  setInputs({ ...inputs, username: e.target.value })
+                }
               />
             </div>
 
@@ -26,6 +43,10 @@ const Signup = () => {
                 type="email"
                 placeholder="Email"
                 className="input input-bordered w-full"
+                value={inputs.email}
+                onChange={(e) =>
+                  setInputs({ ...inputs, email: e.target.value })
+                }
               />
             </div>
 
@@ -34,6 +55,10 @@ const Signup = () => {
                 type="password"
                 placeholder="Password"
                 className="input input-bordered w-full"
+                value={inputs.password}
+                onChange={(e) =>
+                  setInputs({ ...inputs, password: e.target.value })
+                }
               />
             </div>
 
@@ -42,6 +67,10 @@ const Signup = () => {
                 type="password"
                 placeholder="Confirm Password"
                 className="input input-bordered w-full"
+                value={inputs.confirmPassword}
+                onChange={(e) =>
+                  setInputs({ ...inputs, confirmPassword: e.target.value })
+                }
               />
             </div>
 
@@ -54,9 +83,9 @@ const Signup = () => {
 
           <p className="text-center text-sm">
             Already have an account?
-            <a href="/login" className="link link-primary ml-1">
+            <Link to="/login" className="link link-primary ml-1">
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
@@ -64,4 +93,4 @@ const Signup = () => {
   );
 };
 
-export default Signup; 
+export default Signup;
