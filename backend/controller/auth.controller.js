@@ -8,16 +8,15 @@ import generateEmailVerification from "../utils/generateEmailVerification.js";
 
 export const signup = async (req, res) => {
   try {
-    const { fName, lName, username, password, confirmPassword, email, gender } =
+    const { fName, lName, username, password, confirmPassword, email } =
       req.body;
     if (
-      !fName.trim() ||
-      !lName.trim() ||
-      !username.trim() ||
-      !password.trim() ||
-      !confirmPassword.trim() ||
-      !email.trim() ||
-      !gender.trim()
+      fName.trim() == "" ||
+      lName.trim() == "" ||
+      username.trim() == "" ||
+      password.trim() == "" ||
+      confirmPassword.trim() == "" ||
+      email.trim() == ""
     ) {
       return res.status(400).json("All fields are required");
     }
@@ -27,12 +26,12 @@ export const signup = async (req, res) => {
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(400).json("Email already exists");
+      return res.status(400).json({message:"Email already exists"});
     }
 
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
-      return res.status(400).json("Username already exists");
+      return res.status(400).json({message:"Username must be unique"});
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -49,7 +48,6 @@ export const signup = async (req, res) => {
       username,
       password: hashedPassword,
       email,
-      gender,
     });
 
     if (!user) {
