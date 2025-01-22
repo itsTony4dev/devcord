@@ -56,18 +56,18 @@ export const signup = async (req, res) => {
         .json("Something went wrong! Please try again later.");
     }
     //Email verification process
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    //   expiresIn: "1d",
+    // });
 
-    const url = `http://localhost:8000/api/auth/verify/${token}`;
+    // const url = `http://localhost:8000/api/auth/verify/${token}`;
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Email Verification",
-      html: generateEmailVerification(username, url),
-    });
+    // await transporter.sendMail({
+    //   from: process.env.EMAIL_USER,
+    //   to: email,
+    //   subject: "Email Verification",
+    //   html: generateEmailVerification(username, url),
+    // });
 
     res.status(201).json({
       message: "Registration successful. Check your email for verification.",
