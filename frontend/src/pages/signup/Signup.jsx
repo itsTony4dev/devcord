@@ -1,22 +1,28 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useSignup from "../../hooks/useSignup";
 
 const Signup = () => {
   const [inputs, setInputs] = useState({
+    fName: "",
+    lName: "",
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
+  const { loading, signup } = useSignup();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputs);
+    await signup(inputs);
   };
 
   return (
     <div className="min-h-screen w-full rounded-xl bg-base-200 flex items-center justify-center p-4">
-      <div className="card w-full max-w-sm bg-base-100 shadow-xl">
+      <div className="card  w-full max-w-sm bg-base-100 shadow-xl">
         <div className="card-body">
           <h1 className="text-3xl font-bold text-center text-primary">
             Devcord
@@ -26,6 +32,28 @@ const Signup = () => {
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className="form_control flex justify-between">
+              <input
+                type="text"
+                placeholder="First Name"
+                className="input input-bordered w-1/2 mr-1"
+                value={inputs.fName}
+                onChange={(e) =>
+                  setInputs({ ...inputs, fName: e.target.value })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Last Name"
+                className="input input-bordered w-1/2 mr-1"
+                value={inputs.lName}
+                onChange={(e) =>
+                  setInputs({ ...inputs, lName: e.target.value })
+                }
+              />
+            </div>
+
             <div className="form-control">
               <input
                 type="text"
