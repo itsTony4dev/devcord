@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useSignup from "../../hooks/useSignup";
@@ -102,8 +101,13 @@ const Signup = () => {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
-              Create Account
+            <button type="submit" className="btn btn-primary w-full"
+            disabled={loading}>
+              {loading ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Create Account"
+              )}
             </button>
           </form>
 
@@ -111,8 +115,16 @@ const Signup = () => {
 
           <p className="text-center text-sm">
             Already have an account?
-            <Link to="/login" className="link link-primary ml-1">
-              Sign in
+            <Link
+              to="/login"
+              className="link link-primary ml-1"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Sign in"
+              )}
             </Link>
           </p>
         </div>
