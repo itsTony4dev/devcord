@@ -32,11 +32,6 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter your password"],
       min: 6,
     },
-    gender: {
-      type: String,
-      required: true,
-      enum: ["Male", "Female"],
-    },
     isVerified: {
       type: Boolean,
       default: false,
