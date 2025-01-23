@@ -23,7 +23,7 @@ function App() {
         />
         <Route
           path="/signup"
-          element={authUser ? <Navigate to="/login" /> : <Signup />}
+          element={authUser ? <Navigate to="/" /> : <Signup />}
         />
       </Routes>
       <Toaster />
