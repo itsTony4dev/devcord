@@ -26,8 +26,7 @@ export const signup = async (req, res) => {
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(400).json({message:"Email already exists"});
-
+      return res.status(400).json({ message: "Email already exists" });
     }
 
     const existingUsername = await User.findOne({ username });
@@ -57,18 +56,18 @@ export const signup = async (req, res) => {
         .json({ message: "Something went wrong! Please try again later." });
     }
     //Email verification process
-    // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-    //   expiresIn: "1d",
-    // });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1m",
+    });
 
-    // const url = `http://localhost:8000/api/auth/verify/${token}`;
+    const url = `http://localhost:8000/api/auth/verify/${token}`;
 
-    // await transporter.sendMail({
-    //   from: process.env.EMAIL_USER,
-    //   to: email,
-    //   subject: "Email Verification",
-    //   html: generateEmailVerification(username, url),
-    // });
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Email Verification",
+      html: generateEmailVerification(username, url),
+    });
 
     res.status(201).json({
       message: "Registration successful. Check your email for verification.",
@@ -154,6 +153,38 @@ export const verifyEmail = async (req, res) => {
     return res.status(200).json({ message: "Email verified successfully" });
   } catch (error) {
     console.log("Error in verifyEmail controller: ", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const resendVerificationEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email.trim()) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    if (user.isVerified) {
+      return res.status(400).json({ message: "Email already verified" });
+    }
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+    const url = `http://localhost:8000/api/auth/verify/${token}`;
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Email Verification",
+      html: generateEmailVerification(user.username, url),
+    });
+    res.status(200).json({
+      message: "A verification has been sent to your email",
+    });
+  } catch (error) {
+    console.log("Error in resendVerificationEmail controller: ", error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

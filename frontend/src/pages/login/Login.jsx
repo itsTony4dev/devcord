@@ -1,6 +1,20 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
+  const [inputs, setInputs] = useState({
+    emailOrUsername: "",
+    password: "",
+  });
+
+  const { loading, login } = useLogin();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(inputs);
+  };
+
   return (
     <div className="min-h-screen w-full rounded-xl bg-base-200 flex items-center justify-center p-4 ">
       <div className="card w-full max-w-sm bg-base-100 shadow-xl">
@@ -12,12 +26,16 @@ const Login = () => {
             Connect with developers worldwide
           </p>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="form-control">
               <input
-                type="email"
-                placeholder="Email"
+                type="text"
+                placeholder="Email | Username"
                 className="input input-bordered w-full"
+                value={inputs.emailOrUsername}
+                onChange={(e) =>
+                  setInputs({ ...inputs, emailOrUsername: e.target.value })
+                }
               />
             </div>
 
@@ -26,11 +44,23 @@ const Login = () => {
                 type="password"
                 placeholder="Password"
                 className="input input-bordered w-full"
+                value={inputs.password}
+                onChange={(e) =>
+                  setInputs({ ...inputs, password: e.target.value })
+                }
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
-              Sign In
+            <button
+              type="submit"
+              className="btn btn-primary w-full"
+              // disabled={loading}
+            >
+              {!loading ? (
+                "Sign In"
+              ) : (
+                <span className="loading loading-spinner"></span>
+              )}
             </button>
           </form>
 
