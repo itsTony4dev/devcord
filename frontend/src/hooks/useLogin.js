@@ -18,10 +18,19 @@ const useLogin = () => {
         },
         body: JSON.stringify({ emailOrUsername, password }),
       });
-      const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
+      if (!res.ok) {
+        if (res.status === 400) {
+          const data = await res.json();
+          throw new Error(data.message || "Invalid email/username or password");
+        } else if (res.status === 401) {
+          throw new Error("Invalid email/username or password");
+        } else {
+          throw new Error(
+            "An unexpected error occurred. Please try again later."
+          );
+        }
       }
+      const data = await res.json();
       localStorage.setItem("authUser", JSON.stringify(data));
       setAuthUser(data);
     } catch (error) {
