@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+dotenv.config();
 
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
@@ -60,7 +62,7 @@ export const signup = async (req, res) => {
       expiresIn: "1m",
     });
 
-    const url = `http://localhost:8000/api/auth/verify/${token}`;
+    const url = `http://${process.env.HOST}:${process.env.PORT}/api/auth/verify/${token}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
