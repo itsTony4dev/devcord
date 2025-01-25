@@ -3,7 +3,6 @@ import User from "../models/User.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
-
     const token = req.cookies.jwt;
     if (!token) {
       return res
@@ -34,6 +33,7 @@ export const protectRoute = async (req, res, next) => {
     }
 
     res.status(500).json({ message: "Internal Server Error" });
-
   }
 };
+
+
