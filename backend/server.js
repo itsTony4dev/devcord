@@ -4,12 +4,13 @@ import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
 
+import { app, server } from "./socket/socket.js";
+
 import connectDB from "./db/connection.js";
 import authRoutes from "./routes/auth.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 import userRoutes from "./routes/user.routes.js";
 
-const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
@@ -36,7 +37,7 @@ app.get("/health", (_req, res) => {
   res.status(200).send("Server is running");
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   connectDB();
   console.log(`Server is running on port ${port}`);
 });
